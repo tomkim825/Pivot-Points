@@ -1,0 +1,73 @@
+
+
+#symbol{
+  display: block;
+  margin: auto;
+background-color: rgba(200,200,200,0.25);
+text-align:center;
+font-size: 3vmin;
+}
+
+.App {
+  text-align: center;
+}
+
+#message{
+  color:orangered;
+  margin: 0.25vmin;
+}
+
+/*Google fonts*/
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+.container{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+    border: 1px solid black;
+    width: 96vmin; 
+    height: 96vmin;
+    margin: auto;
+    text-align: center;
+    font-family: 'Raleway';
+    background-color: white;
+    font-size: 3vmin;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+    position: absolute;
+
+}
+
+.content{
+  max-height: 96vh;
+}
+
+h1{
+  margin: 0 0 -1vmin 0;
+
+}
+
+#button{
+  margin-top:1vh;
+  transform: scale(0.8);
+}
+body{
+    padding:1vh;
+    margin:0;
+    background-color: #607D8B;
+    overflow: hidden;
+}
+
+.stats{
+  margin: 0 1vmin;
+  padding: 0.5vmin;
+  border: 1px solid gray;
+  font-size:2.5vmin;
+}
+
+.footnote{
+  font-size: 2vmin;
+  color: gray;
+}
