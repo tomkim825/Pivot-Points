@@ -1,4 +1,5 @@
-
+/*Google fonts*/
+@import url('https://fonts.googleapis.com/css?family=Raleway');
 
 #symbol{
   display: block;
@@ -6,6 +7,7 @@
 background-color: rgba(200,200,200,0.25);
 text-align:center;
 font-size: 3vmin;
+height: 3.3vmin;
 }
 
 .App {
@@ -16,9 +18,6 @@ font-size: 3vmin;
   color:orangered;
   margin: 0.25vmin;
 }
-
-/*Google fonts*/
-@import url('https://fonts.googleapis.com/css?family=Raleway');
 
 .container{
   display:flex;
@@ -31,13 +30,12 @@ font-size: 3vmin;
     text-align: center;
     font-family: 'Raleway';
     background-color: white;
-    font-size: 3vmin;
+    font-size: 2.75vmin;
     top:0;
     right:0;
     left:0;
     bottom:0;
     position: absolute;
-
 }
 
 .content{
@@ -51,7 +49,8 @@ h1{
 
 #button{
   margin-top:1vh;
-  transform: scale(0.8);
+  /* transform: scale(0.8); */
+
 }
 body{
     padding:1vh;

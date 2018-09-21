@@ -15,8 +15,20 @@ class App extends Component {
   constructor (props) {
     super(props);
 
+    var defaultValue;
+
+    if (localStorage.getItem('symbol')){
+      defaultValue = localStorage.getItem('symbol');
+    } else{
+      defaultValue ='';
+    }
+
+    if((defaultValue === undefined) || (defaultValue === 'undefined') ) {
+      defaultValue = ''
+    };
+
     this.state = {
-      symbol: '', 
+      symbol: defaultValue, 
       stock:'',
       open: 0,
       high: 0,
@@ -29,13 +41,14 @@ class App extends Component {
       message:''
   };
 
+
 this.enterSymbol = (event) => {
     this.setState({symbol: event.target.value.toUpperCase()});
 }
 var component = this;
 
 this.lookup = () => {
-  component.setState({message:'Collecting data...'});
+  component.setState({message:'Crunching numbers...'});
   $.ajax({
     url: 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol='+component.state.symbol+ '&apikey=' + subscriptionkey, 
     // component.state.symbol.toUpperCase()
@@ -47,7 +60,7 @@ this.lookup = () => {
       } else{
         // var info = data['Global Quote'];
         var stock =  data['Global Quote']["01. symbol"];
-        var date =  'Data based on last trading day: ' + data['Global Quote']["07. latest trading day"];
+        var date =  'Based on last trading session: ' + data['Global Quote']["07. latest trading day"];
         var high = parseFloat(data['Global Quote']["03. high"]).toFixed(2);
         var low =  parseFloat(data['Global Quote']["04. low"]).toFixed(2);
         var open = parseFloat(data['Global Quote']["02. open"]).toFixed(2);
@@ -67,6 +80,8 @@ this.lookup = () => {
           x=parseFloat(high )+ parseFloat(low) + 2*parseFloat(close);
         }
         component.setState( {high, low, stock,close, open,date,classicPP, range,x, message:date});
+        if( stock === undefined){ stock = ''};
+        localStorage.setItem('symbol', stock);
       }},
     error: function (jqXHR, textStatus, error) {
         console.log("Post error: " + error);
@@ -74,7 +89,12 @@ this.lookup = () => {
     }
 });
 }
+}
 
+componentDidMount(){
+  if(localStorage.getItem('symbol')){
+  this.lookup();
+}
 }
 
   render() {
@@ -82,10 +102,10 @@ this.lookup = () => {
       <div className="App">
         <div className="container">
           <div className='content'>
-            <h1>Pivot Points</h1>
-            <TextField id="symbol" type="text"  label=" Enter Stock Symbol" onChange={this.enterSymbol}  />
+            <h1> Pivot Points </h1>
+            <TextField id="symbol" type="text" defaultValue={localStorage.getItem('symbol') || ""}  label=" Enter Stock Symbol" onChange={this.enterSymbol}  />
             <br/>
-            <Button id='button' variant="contained" color="primary" onClick={this.lookup}> Look up </Button>
+            <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.lookup}> Look up </Button>
            <br/>
            <span id='message'> {this.state.message}</span>
             <div>
@@ -95,30 +115,29 @@ this.lookup = () => {
                <span className="stats">Close: $ {this.state.close} </span>    
             </div>
             <hr/>
-
-    
-          <Grid container className='classesdemo' justify="center" spacing={16}>
+          <Grid container className='classesdemo' justify="space-around" spacing={24} alignItems = "center">
            
-              <Grid item>
+              <Grid item xs={4}>
                 <Title/>
               </Grid>
 
-              <Grid item>
+              <Grid item xs={2}>
                 <Classic state={this.state}/>
               </Grid>
 
-            <Grid item>
+            <Grid item xs={2}>
               <Camarilla state={this.state}/>
             </Grid>
 
-            <Grid item>
+            <Grid item xs={2}>
               <Fib state={this.state}/>
             </Grid>
 
-            <Grid item>
+            <Grid item xs={2}>
               <Demark state={this.state}/>
             </Grid>
           </Grid>
+          <span className = 'footnote'>** Pivot Point data is only accurate before/after trading hours **</span>
         </div>
          </div>
       </div>
