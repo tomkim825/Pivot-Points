@@ -5,22 +5,15 @@ class Title extends Component {
 
 render() {
   return (
-    <div className="">
-    - 
-    <br/>  <br/>
-       Resistance3:  
-       <br/>  <br/>
-       Resistance2: 
-       <br/>  <br/>
-       Resistance1: 
-       <br/>  <br/>
-       Pivot: 
-       <br/>  <br/>
-       Support1: 
-       <br/>  <br/>
-       Support2: 
-       <br/>  <br/>
-       Support3: 
+    <div className="name">
+    <div className='cell small title'>  -  </div> 
+    <div className='cell small resistance'> Resistance3: </div>  
+    <div className='cell small resistance'> Resistance2: </div>
+    <div className='cell small resistance'> Resistance1: </div>
+    <div className='cell small pivot'> Pivot:  </div>
+    <div className='cell small support'> Support1: </div>
+    <div className='cell small support'> Support2: </div>
+    <div className='cell small support'> Support3: </div> 
     </div>
   );
 }

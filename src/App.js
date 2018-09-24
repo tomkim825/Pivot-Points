@@ -107,7 +107,7 @@ componentDidMount(){
             <br/>
             <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.lookup}> Look up </Button>
            <br/>
-           <span id='message'> {this.state.message}</span>
+           <div id='message'> {this.state.message}</div>
             <div>
               <span className="stats">High: $ {this.state.high} </span>
                <span className="stats">Low: $ {this.state.low} </span>
@@ -117,7 +117,7 @@ componentDidMount(){
             <hr/>
           <Grid container className='classesdemo' justify="space-around" spacing={24} alignItems = "center">
            
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <Title/>
               </Grid>
 
