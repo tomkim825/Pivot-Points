@@ -1,13 +1,22 @@
 /*Google fonts*/
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
+@media screen and (orientation:landscape) {
+  .support3{
+    height:7.5vmin;
+  }
+  .title{
+    height: 6vmin;
+  }
+}
+
 #symbol{
   display: block;
   margin: auto;
 background-color: rgba(200,200,200,0.25);
 text-align:center;
 font-size: 2.5vmin;
-height: 3.3vmin;
+height: 3vmin;
 width: 40vmin;
 }
 
@@ -24,6 +33,10 @@ width: 40vmin;
   height: 7.5vmin;
 }
 
+.support3{
+  height:3vmin;
+}
+
 .small{
 font-size: 2.25
 }
@@ -33,9 +46,7 @@ font-size: 2.25
 .pivot{
   color: darkblue;
 }
-.support ,.resistance{
-  color: rgb(50,50,50)
-}
+
 .name{
   text-align: left;
 }
@@ -85,12 +96,12 @@ body{
 .stats{
   margin: 0 1vmin;
   padding: 0.5vmin;
-  border: 1px solid gray;
+  border: 1px solid rgba(125,125,125,.5);
   font-size:2.5vmin;
+  color:rgb(75,75,75)
 }
 
 .footnote{
   font-size: 2vmin;
-  margin-top:-2vmin;
   color: gray;
 }

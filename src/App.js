@@ -45,6 +45,14 @@ class App extends Component {
 this.enterSymbol = (event) => {
     this.setState({symbol: event.target.value.toUpperCase()});
 }
+
+this.keyPress = (event) => {
+  if(event.keyCode === 13){
+    this.setState({symbol: event.target.value.toUpperCase()});
+    this.lookup();
+ }
+}
+
 var component = this;
 
 this.lookup = () => {
@@ -68,6 +76,10 @@ this.lookup = () => {
         var classicPP = ((parseFloat(high)+parseFloat(low)+parseFloat(close))/3).toFixed(2);
         var range = (parseFloat(high)-parseFloat(low)).toFixed(2);
         var x;
+        if( open > high) {high = open}; //sometimes open price is higher than high?? Strange info from AlphaVantage API. This will correct the issue
+        if( close > high) {high = close};//sometimes open price is higher than high?? Strange info from AlphaVantage API. This will correct the issue
+        if( open < low) {low = open};//sometimes open price is higher than high?? Strange info from AlphaVantage API. This will correct the issue
+        if( close < low) {low = close};//sometimes open price is higher than high?? Strange info from AlphaVantage API. This will correct the issue
         if(close === 'NaN'){
           component.setState({message:'Server error or busy. Please try again in a minute'});
         };
@@ -103,7 +115,7 @@ componentDidMount(){
         <div className="container">
           <div className='content'>
             <h1> Pivot Points </h1>
-            <TextField id="symbol" type="text" defaultValue={localStorage.getItem('symbol') || ""}  label="Stock Symbol" onChange={this.enterSymbol}  />
+            <TextField id="symbol" type="text" defaultValue={localStorage.getItem('symbol') || ""} onKeyDown={this.keyPress} label="Stock Symbol" onChange={this.enterSymbol}  />
             <br/>
             <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.lookup}> Look up </Button>
            <br/>
@@ -137,7 +149,7 @@ componentDidMount(){
               <Demark state={this.state}/>
             </Grid>
           </Grid>
-          <span className = 'footnote'>** Pivot Point data is only accurate before/after trading hours **</span>
+          <div className = 'footnote'>** Pivot Point data is only accurate before/after trading hours **</div>
         </div>
          </div>
       </div>
