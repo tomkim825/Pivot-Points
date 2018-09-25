@@ -103,7 +103,7 @@ componentDidMount(){
         <div className="container">
           <div className='content'>
             <h1> Pivot Points </h1>
-            <TextField id="symbol" type="text" defaultValue={localStorage.getItem('symbol') || ""}  label=" Enter Stock Symbol" onChange={this.enterSymbol}  />
+            <TextField id="symbol" type="text" defaultValue={localStorage.getItem('symbol') || ""}  label="Stock Symbol" onChange={this.enterSymbol}  />
             <br/>
             <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.lookup}> Look up </Button>
            <br/>

@@ -6,8 +6,9 @@
   margin: auto;
 background-color: rgba(200,200,200,0.25);
 text-align:center;
-font-size: 3vmin;
+font-size: 2.5vmin;
 height: 3.3vmin;
+width: 40vmin;
 }
 
 .App {
@@ -90,5 +91,6 @@ body{
 
 .footnote{
   font-size: 2vmin;
+  margin-top:-2vmin;
   color: gray;
 }

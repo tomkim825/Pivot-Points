@@ -6,7 +6,7 @@ class Title extends Component {
 render() {
   return (
     <div className="name">
-    <div className='cell small title'>  -  </div> 
+    <div className='cell small title'>   </div> 
     <div className='cell small resistance'> Resistance3: </div>  
     <div className='cell small resistance'> Resistance2: </div>
     <div className='cell small resistance'> Resistance1: </div>
