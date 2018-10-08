@@ -25,7 +25,7 @@ width: 40vmin;
 }
 
 #message{
-  color:orangered;
+  color:Royalblue;
   margin: 1vmin;
 }
 
@@ -37,9 +37,6 @@ width: 40vmin;
   height:3vmin;
 }
 
-.small{
-font-size: 2.25
-}
 .title{
   height: 4vmin;
 }
@@ -49,6 +46,7 @@ font-size: 2.25
 
 .name{
   text-align: left;
+  font-size: 2vmin
 }
 
 .container{

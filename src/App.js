@@ -38,7 +38,9 @@ class App extends Component {
       classicPP: 0.00,
       range:0,
       x:0,
-      message:''
+      message:'',
+      change:"",
+      changeColor:'green'
   };
 
 
@@ -73,9 +75,13 @@ this.lookup = () => {
         var low =  parseFloat(data['Global Quote']["04. low"]).toFixed(2);
         var open = parseFloat(data['Global Quote']["02. open"]).toFixed(2);
         var close = parseFloat(data['Global Quote']["05. price"]).toFixed(2);
+        var change = ' ( $ ' + parseFloat(data['Global Quote']["09. change"]).toFixed(2) + " ) ";
         var classicPP = ((parseFloat(high)+parseFloat(low)+parseFloat(close))/3).toFixed(2);
         var range = (parseFloat(high)-parseFloat(low)).toFixed(2);
         var x;
+        var changeColor = '';
+        if( data['Global Quote']["09. change"] >= 0){changeColor = "green"};
+        if( data['Global Quote']["09. change"] < 0){changeColor = "red"};
         if( open > high) {high = open}; //sometimes open price is higher than high?? Strange info from AlphaVantage API. This will correct the issue
         if( close > high) {high = close};//sometimes open price is higher than high?? Strange info from AlphaVantage API. This will correct the issue
         if( open < low) {low = open};//sometimes open price is higher than high?? Strange info from AlphaVantage API. This will correct the issue
@@ -91,7 +97,7 @@ this.lookup = () => {
         } else if(parseFloat(close) === parseFloat(open)){
           x=parseFloat(high )+ parseFloat(low) + 2*parseFloat(close);
         }
-        component.setState( {high, low, stock,close, open,date,classicPP, range,x, message:date});
+        component.setState( {high, low, stock,close, open,date,classicPP, range,x, change, changeColor, message:date});
         if( stock === undefined){ stock = ''};
         localStorage.setItem('symbol', stock);
       }},
@@ -119,7 +125,7 @@ componentDidMount(){
             <br/>
             <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.lookup}> Look up </Button>
            <br/>
-           <div id='message'> {this.state.message}</div>
+           <div> <span id='message'> {this.state.message}</span><span style={{color:this.state.changeColor}}> {this.state.change} </span></div>
             <div>
               <span className="stats">High: $ {this.state.high} </span>
                <span className="stats">Low: $ {this.state.low} </span>
@@ -149,6 +155,7 @@ componentDidMount(){
               <Demark state={this.state}/>
             </Grid>
           </Grid>
+          <hr/>
           <div className = 'footnote'>** Pivot Point data is only accurate before/after trading hours **</div>
         </div>
          </div>
