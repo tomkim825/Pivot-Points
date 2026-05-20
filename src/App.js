@@ -40,7 +40,9 @@ class App extends Component {
       x:0,
       message:'',
       change:"",
-      changeColor:'green'
+        changeColor:'green',
+        isLookupDisabled: false,
+        lookupCountdown: 0
   };
 
 
@@ -56,6 +58,37 @@ this.keyPress = (event) => {
 }
 
 var component = this;
+
+this.lookupCooldownTimer = null;
+
+this.startLookupCooldown = () => {
+  if(this.lookupCooldownTimer){
+    return;
+  }
+
+  component.setState({isLookupDisabled: true, lookupCountdown: 60});
+
+  this.lookupCooldownTimer = setInterval(() => {
+    component.setState((prevState) => {
+      if(prevState.lookupCountdown <= 1){
+        clearInterval(this.lookupCooldownTimer);
+        this.lookupCooldownTimer = null;
+        return {isLookupDisabled: false, lookupCountdown: 0};
+      }
+
+      return {lookupCountdown: prevState.lookupCountdown - 1};
+    });
+  }, 1000);
+}
+
+this.handleLookupClick = () => {
+  if(component.state.isLookupDisabled){
+    return;
+  }
+
+  this.lookup();
+  this.startLookupCooldown();
+}
 
 this.lookup = () => {
   component.setState({message:'Crunching numbers...'});
@@ -115,6 +148,13 @@ componentDidMount(){
 }
 }
 
+componentWillUnmount(){
+  if(this.lookupCooldownTimer){
+    clearInterval(this.lookupCooldownTimer);
+    this.lookupCooldownTimer = null;
+  }
+}
+
   render() {
     return (
       <div className="App">
@@ -123,7 +163,7 @@ componentDidMount(){
             <h1> Pivot Points </h1>
             <TextField id="symbol" type="text" defaultValue={localStorage.getItem('symbol') || ""} onKeyDown={this.keyPress} label="Stock Symbol" onChange={this.enterSymbol}  />
             <br/>
-            <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.lookup}> Look up </Button>
+            <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.handleLookupClick} disabled={this.state.isLookupDisabled}> {this.state.isLookupDisabled ? `${this.state.lookupCountdown}s` : 'look up'} </Button>
            <br/>
            <div> <span id='message'> {this.state.message}</span><span style={{color:this.state.changeColor}}> {this.state.change} </span></div>
             <div>
