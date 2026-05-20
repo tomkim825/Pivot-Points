@@ -2,20 +2,17 @@ import React, { Component } from 'react';
 import './App.css';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import $ from "jquery";
-import Title from './Title';
-import Classic from './Classic';
-import Camarilla from './Camarilla';
-import Fib from './Fib';
-import Demark from './Demark';
 import subscriptionkey from './config/subscriptionkey.js'
+
+const RECENT_SEARCHES_KEY = 'recentSearches';
 
 class App extends Component {
   constructor (props) {
     super(props);
 
     var defaultValue;
+    var recentSearches = [];
 
     if (localStorage.getItem('symbol')){
       defaultValue = localStorage.getItem('symbol').toUpperCase();
@@ -27,8 +24,19 @@ class App extends Component {
       defaultValue = ''
     };
 
+    if (localStorage.getItem(RECENT_SEARCHES_KEY)){
+      try {
+        recentSearches = JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY))
+          .filter((item, index, items) => typeof item === 'string' && item.trim() && items.indexOf(item) === index)
+          .slice(0, 10);
+      } catch (error) {
+        recentSearches = [];
+      }
+    }
+
     this.state = {
       symbol: defaultValue, 
+      recentSearches,
       stock:'',
       open: 0,
       high: 0,
@@ -52,9 +60,26 @@ this.enterSymbol = (event) => {
 
 this.keyPress = (event) => {
   if(event.keyCode === 13){
-    this.setState({symbol: event.target.value.toUpperCase()});
-    this.lookup();
+    this.setState({symbol: event.target.value.toUpperCase()}, this.handleLookupClick);
  }
+}
+
+this.storeRecentSearch = (symbol) => {
+  const normalizedSymbol = (symbol || '').trim().toUpperCase();
+
+  if(!normalizedSymbol){
+    return;
+  }
+
+  this.setState((prevState) => {
+    const updatedRecentSearches = [normalizedSymbol]
+      .concat(prevState.recentSearches.filter((item) => item !== normalizedSymbol))
+      .slice(0, 10);
+
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updatedRecentSearches));
+
+    return {recentSearches: updatedRecentSearches};
+  });
 }
 
 var component = this;
@@ -66,7 +91,7 @@ this.startLookupCooldown = () => {
     return;
   }
 
-  component.setState({isLookupDisabled: true, lookupCountdown: 20});
+  component.setState({isLookupDisabled: true, lookupCountdown: 15});
 
   this.lookupCooldownTimer = setInterval(() => {
     component.setState((prevState) => {
@@ -82,18 +107,29 @@ this.startLookupCooldown = () => {
 }
 
 this.handleLookupClick = () => {
-  if(component.state.isLookupDisabled){
+  const symbol = (component.state.symbol || '').trim().toUpperCase();
+
+  if(component.state.isLookupDisabled || !symbol){
     return;
   }
 
-  this.lookup();
+  component.setState({symbol});
+  this.storeRecentSearch(symbol);
+  this.lookup(symbol);
   this.startLookupCooldown();
 }
 
-this.lookup = () => {
-  component.setState({message:'Crunching numbers...'});
+this.lookup = (symbolOverride) => {
+  const symbol = (symbolOverride || component.state.symbol || '').trim().toUpperCase();
+
+  if(!symbol){
+    component.setState({message:'Enter a stock symbol to begin'});
+    return;
+  }
+
+  component.setState({message:'Crunching numbers...', symbol});
   $.ajax({
-    url: 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol='+component.state.symbol+ '&apikey=' + subscriptionkey, 
+    url: 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol='+symbol+ '&apikey=' + subscriptionkey, 
     // component.state.symbol.toUpperCase()
     crossDomain: true,
     dataType: "json",
@@ -158,47 +194,175 @@ componentWillUnmount(){
   render() {
     const isSymbolEmpty = !this.state.symbol || !this.state.symbol.trim();
     const isLookupBlocked = this.state.isLookupDisabled || isSymbolEmpty;
+    const formatLevel = (value) => {
+      const parsedValue = parseFloat(value);
+
+      return Number.isFinite(parsedValue) ? `$ ${parsedValue.toFixed(2)}` : '--';
+    };
+    const pivotRows = [
+      {
+        label: 'Resistance 3',
+        classic: parseFloat(this.state.classicPP) + 2 * (parseFloat(this.state.high) - parseFloat(this.state.low)),
+        camarilla: parseFloat(this.state.close) + parseFloat(this.state.range) * 1.1 / 4,
+        fibonacci: parseFloat(this.state.close) + parseFloat(this.state.range),
+        demark: '--'
+      },
+      {
+        label: 'Resistance 2',
+        classic: parseFloat(this.state.classicPP) + parseFloat(this.state.high) - parseFloat(this.state.low),
+        camarilla: parseFloat(this.state.close) + parseFloat(this.state.range) * 1.1 / 6,
+        fibonacci: parseFloat(this.state.close) + parseFloat(this.state.range) * 0.618,
+        demark: '--'
+      },
+      {
+        label: 'Resistance 1',
+        classic: 2 * parseFloat(this.state.classicPP) - parseFloat(this.state.low),
+        camarilla: parseFloat(this.state.close) + parseFloat(this.state.range) * 1.1 / 12,
+        fibonacci: parseFloat(this.state.close) + parseFloat(this.state.range) * 0.382,
+        demark: parseFloat(this.state.x) / 2 - parseFloat(this.state.low)
+      },
+      {
+        label: 'Pivot',
+        classic: parseFloat(this.state.classicPP),
+        camarilla: '--',
+        fibonacci: parseFloat(this.state.classicPP),
+        demark: parseFloat(this.state.x) / 4,
+        isPivot: true
+      },
+      {
+        label: 'Support 1',
+        classic: 2 * parseFloat(this.state.classicPP) - parseFloat(this.state.high),
+        camarilla: parseFloat(this.state.close) - parseFloat(this.state.range) * 1.1 / 12,
+        fibonacci: parseFloat(this.state.close) - parseFloat(this.state.range) * 0.382,
+        demark: parseFloat(this.state.x) / 2 - parseFloat(this.state.high)
+      },
+      {
+        label: 'Support 2',
+        classic: parseFloat(this.state.classicPP) - parseFloat(this.state.high) + parseFloat(this.state.low),
+        camarilla: parseFloat(this.state.close) - parseFloat(this.state.range) * 1.1 / 6,
+        fibonacci: parseFloat(this.state.close) - parseFloat(this.state.range) * 0.618,
+        demark: '--'
+      },
+      {
+        label: 'Support 3',
+        classic: parseFloat(this.state.classicPP) - 2 * (parseFloat(this.state.high) - parseFloat(this.state.low)),
+        camarilla: parseFloat(this.state.close) - parseFloat(this.state.range) * 1.1 / 4,
+        fibonacci: parseFloat(this.state.close) - parseFloat(this.state.range),
+        demark: '--'
+      }
+    ];
+    const mobileMethods = [
+      {
+        name: 'Classic',
+        className: 'classic',
+        values: pivotRows.map((row) => ({ label: row.label, value: row.classic, isPivot: row.isPivot }))
+      },
+      {
+        name: 'Camarilla',
+        className: 'camarilla',
+        values: pivotRows.map((row) => ({ label: row.label, value: row.camarilla, isPivot: row.isPivot }))
+      },
+      {
+        name: 'Fibonacci',
+        className: 'fibonacci',
+        values: pivotRows.map((row) => ({ label: row.label, value: row.fibonacci, isPivot: row.isPivot }))
+      },
+      {
+        name: 'DeMark',
+        className: 'demark',
+        values: pivotRows
+          .filter((row) => !['Resistance 3', 'Resistance 2', 'Support 2', 'Support 3'].includes(row.label))
+          .map((row) => ({ label: row.label, value: row.demark, isPivot: row.isPivot }))
+      }
+    ];
 
     return (
       <div className="App">
         <div className="container">
           <div className='content'>
-            <h1> Pivot Points </h1>
-            <TextField id="symbol" type="text" value={this.state.symbol} onKeyDown={this.keyPress} label="Stock Symbol" helperText="Try symbols like AAPL, MSFT, SPY" onChange={this.enterSymbol} inputProps={{ 'aria-label': 'Stock Symbol' }} />
-            <br/>
-            <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.handleLookupClick} disabled={isLookupBlocked}> {this.state.isLookupDisabled ? `Retry in ${this.state.lookupCountdown}s` : 'Look up'} </Button>
-           <br/>
+            <div className="appHeader">
+              <div className="appHeaderLeft">
+                <div className="appHeaderMain">
+                  <h1 className="appTitle"> Pivot Points </h1>
+                  <p className="subtitle">Find session levels fast with classic and alternative pivot models.</p>
+                </div>
+
+                <div className="lookupRow">
+                  <TextField className="symbolInput" id="symbol" type="text" value={this.state.symbol} onKeyDown={this.keyPress} label="Stock Symbol" helperText="Try symbols like AAPL, MSFT, SPY" onChange={this.enterSymbol} inputProps={{ 'aria-label': 'Stock Symbol' }} />
+                  <Button size="medium" id='button' className="lookupButton" variant="contained" color="primary" onClick={this.handleLookupClick} disabled={isLookupBlocked}> {this.state.isLookupDisabled ? `Retry in ${this.state.lookupCountdown}s` : 'Look up'} </Button>
+                </div>
+              </div>
+
+              <aside className="recentSearchesPanel" aria-label="Recent searches">
+                <h2 className="recentSearchesTitle">Recent searches</h2>
+                {this.state.recentSearches.length ? (
+                  <div className="recentSearchesList">
+                    {this.state.recentSearches.map((recentSymbol) => (
+                      <button type="button" className="recentSearchChip" key={recentSymbol} onClick={() => this.setState({symbol: recentSymbol})}>
+                        {recentSymbol}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="recentSearchesEmpty">Your last ten unique symbols will show here.</p>
+                )}
+              </aside>
+            </div>
+
            <div aria-live="polite" className="liveStatus"> <span id='message'> {this.state.message}</span><span style={{color:this.state.changeColor}}> {this.state.change} </span></div>
-            <div>
+
+            <div className="statsRow">
               <span className="stats">High: $ {this.state.high} </span>
                <span className="stats">Low: $ {this.state.low} </span>
                <span className="stats">Open: $ {this.state.open} </span>
                <span className="stats">Close: $ {this.state.close} </span>    
             </div>
-            <hr/>
-          <Grid container className='classesdemo' justify="space-around" spacing={24} alignItems = "center">
-           
-              <Grid item xs={2}>
-                <Title/>
-              </Grid>
-
-              <Grid item xs={2}>
-                <Classic state={this.state}/>
-              </Grid>
-
-            <Grid item xs={2}>
-              <Camarilla state={this.state}/>
-            </Grid>
-
-            <Grid item xs={2}>
-              <Fib state={this.state}/>
-            </Grid>
-
-            <Grid item xs={2}>
-              <Demark state={this.state}/>
-            </Grid>
-          </Grid>
-          <hr/>
+            <hr className="divider"/>
+            <section className="tableSection">
+              <div className="tableIntro">
+                <h2 className="tableSubtitle">Compare support, resistance, and pivot levels across the four calculation methods.</h2>
+              </div>
+              <div className="pivotTableWrapper">
+                <table className="pivotTable">
+                  <thead>
+                    <tr>
+                      <th scope="col">Level</th>
+                      <th scope="col">Classic</th>
+                      <th scope="col">Camarilla</th>
+                      <th scope="col">Fibonacci</th>
+                      <th scope="col">DeMark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pivotRows.map((row) => (
+                      <tr key={row.label} className={row.isPivot ? 'pivotRow' : ''}>
+                        <th scope="row">{row.label}</th>
+                        <td>{formatLevel(row.classic)}</td>
+                        <td>{formatLevel(row.camarilla)}</td>
+                        <td>{formatLevel(row.fibonacci)}</td>
+                        <td>{formatLevel(row.demark)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="mobilePivotCards">
+                {mobileMethods.map((method) => (
+                  <article className={`mobilePivotCard mobilePivotCard--${method.className}`} key={method.name}>
+                    <h3 className="mobilePivotTitle">{method.name}</h3>
+                    <div className="mobilePivotList">
+                      {method.values.map((item) => (
+                        <div className={item.isPivot ? 'mobilePivotItem mobilePivotItemHighlight' : 'mobilePivotItem'} key={`${method.name}-${item.label}`}>
+                          <span className="mobilePivotLabel">{item.label}</span>
+                          <span className="mobilePivotValue">{formatLevel(item.value)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          <hr className="divider"/>
           <div className = 'footnote'>** Pivot Point data is only accurate before/after trading hours **</div>
         </div>
         <div className="versionFootnote">2026 version 0.1.1</div>
