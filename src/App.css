@@ -157,7 +157,7 @@ body{
 
 .statsRow{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.6rem;
   margin: 0.5rem 0 0.75rem;
 }
@@ -171,6 +171,9 @@ body{
   border-radius: 8px;
   background: rgba(255,255,255,0.55);
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .divider{
@@ -205,7 +208,7 @@ body{
 
 .pivotTableWrapper{
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
   border: 1px solid rgba(15,23,42,0.18);
   border-radius: 12px;
   background: #f9fafb;
@@ -218,7 +221,7 @@ body{
 
 .pivotTable{
   width: 100%;
-  min-width: 760px;
+  min-width: 0;
   border-collapse: collapse;
   table-layout: fixed;
 }
@@ -240,14 +243,15 @@ body{
 
 .pivotTable th,
 .pivotTable td{
-  padding: 0.85rem 0.9rem;
+  padding: 0.65rem 0.55rem;
   border: 1px solid rgba(15,23,42,0.12);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .pivotTable thead th:first-child,
 .pivotTable tbody th{
-  width: 22%;
+  width: 28%;
 }
 
 .pivotTable tbody th{
@@ -388,6 +392,15 @@ body{
 
   .liveStatus{
     padding: 0.65rem 0.7rem;
+  }
+
+  .statsRow{
+    gap: 0.3rem;
+  }
+
+  .stats{
+    padding: 0.42rem 0.2rem;
+    font-size: clamp(0.58rem, 2.25vw, 0.76rem);
   }
 
   .pivotTableWrapper{
