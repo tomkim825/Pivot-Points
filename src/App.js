@@ -18,7 +18,7 @@ class App extends Component {
     var defaultValue;
 
     if (localStorage.getItem('symbol')){
-      defaultValue = localStorage.getItem('symbol');
+      defaultValue = localStorage.getItem('symbol').toUpperCase();
     } else{
       defaultValue ='';
     }
@@ -66,7 +66,7 @@ this.startLookupCooldown = () => {
     return;
   }
 
-  component.setState({isLookupDisabled: true, lookupCountdown: 60});
+  component.setState({isLookupDisabled: true, lookupCountdown: 20});
 
   this.lookupCooldownTimer = setInterval(() => {
     component.setState((prevState) => {
@@ -156,16 +156,19 @@ componentWillUnmount(){
 }
 
   render() {
+    const isSymbolEmpty = !this.state.symbol || !this.state.symbol.trim();
+    const isLookupBlocked = this.state.isLookupDisabled || isSymbolEmpty;
+
     return (
       <div className="App">
         <div className="container">
           <div className='content'>
             <h1> Pivot Points </h1>
-            <TextField id="symbol" type="text" defaultValue={localStorage.getItem('symbol') || ""} onKeyDown={this.keyPress} label="Stock Symbol" onChange={this.enterSymbol}  />
+            <TextField id="symbol" type="text" value={this.state.symbol} onKeyDown={this.keyPress} label="Stock Symbol" helperText="Try symbols like AAPL, MSFT, SPY" onChange={this.enterSymbol} inputProps={{ 'aria-label': 'Stock Symbol' }} />
             <br/>
-            <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.handleLookupClick} disabled={this.state.isLookupDisabled}> {this.state.isLookupDisabled ? `${this.state.lookupCountdown}s` : 'look up'} </Button>
+            <Button size="small" style={{Height: '1vmin'}} id='button' variant="contained" color="primary" onClick={this.handleLookupClick} disabled={isLookupBlocked}> {this.state.isLookupDisabled ? `Retry in ${this.state.lookupCountdown}s` : 'Look up'} </Button>
            <br/>
-           <div> <span id='message'> {this.state.message}</span><span style={{color:this.state.changeColor}}> {this.state.change} </span></div>
+           <div aria-live="polite" className="liveStatus"> <span id='message'> {this.state.message}</span><span style={{color:this.state.changeColor}}> {this.state.change} </span></div>
             <div>
               <span className="stats">High: $ {this.state.high} </span>
                <span className="stats">Low: $ {this.state.low} </span>
@@ -198,6 +201,7 @@ componentWillUnmount(){
           <hr/>
           <div className = 'footnote'>** Pivot Point data is only accurate before/after trading hours **</div>
         </div>
+        <div className="versionFootnote">2026 version 0.1.1</div>
          </div>
       </div>
     );

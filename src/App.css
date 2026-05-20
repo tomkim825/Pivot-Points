@@ -15,6 +15,7 @@
   margin: auto;
 background-color: rgba(200,200,200,0.25);
 text-align:center;
+text-transform: uppercase;
 font-size: 2.5vmin;
 height: 3vmin;
 width: 40vmin;
@@ -27,6 +28,11 @@ width: 40vmin;
 #message{
   color:Royalblue;
   margin: 1vmin;
+}
+
+.liveStatus{
+  margin: 1.6vmin 0;
+  padding: 0.8vmin 0;
 }
 
 .cell{
@@ -67,11 +73,14 @@ width: 40vmin;
     bottom:0;
     position: absolute;
     text-overflow: ellipsis;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.14);
 
 }
 
 .content{
   max-height: 96vh;
+  margin-top: -4vmin;
 }
 
 h1{
@@ -87,7 +96,7 @@ h1{
 body{
     padding:1vh;
     margin:0;
-    background-color: #607D8B;
+    background-color: #C2B280;
     overflow: hidden;
 }
 
@@ -96,10 +105,21 @@ body{
   padding: 0.5vmin;
   border: 1px solid rgba(125,125,125,.5);
   font-size:2.5vmin;
-  color:rgb(75,75,75)
+  color:rgb(75,75,75);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.35);
 }
 
 .footnote{
   font-size: 2vmin;
   color: gray;
 }
+
+.versionFootnote{
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  font-size: 1.8vmin;
+  color: rgba(0,0,0,0.6);
+}
+
