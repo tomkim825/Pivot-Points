@@ -3,8 +3,7 @@ import "./App.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import $ from "jquery";
-import subscriptionkey from "./config/subscriptionkey.js";
-import subIndex from "./config/subscriptionkey.js";
+import subscriptiondata from "./config/subscriptionkey.js";
 
 const RECENT_SEARCHES_KEY = "recentSearches";
 
@@ -150,7 +149,7 @@ class App extends Component {
           "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" +
           symbol +
           "&apikey=" +
-          subscriptionkey,
+          subscriptiondata.subscriptionkey,
         // component.state.symbol.toUpperCase()
         crossDomain: true,
         dataType: "json",
@@ -547,7 +546,7 @@ class App extends Component {
               ** Pivot Point data is only accurate before/after trading hours **
             </div>
           </div>
-          <div className="versionFootnote">2026 version 0.1.{subIndex}</div>
+          <div className="versionFootnote">2026 version 0.1.{subscriptiondata.index}</div>
         </div>
       </div>
     );
