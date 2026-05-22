@@ -466,10 +466,6 @@ class App extends Component {
             <div aria-live="polite" className="liveStatus">
               {" "}
               <span id="message"> {this.state.message}</span>
-              <span style={{ color: this.state.changeColor }}>
-                {" "}
-                {this.state.change}{" "}
-              </span>
             </div>
 
             <div className="statsRow">
