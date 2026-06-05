@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Pivot Points</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="App">
+      <div class="container">
+        <div class="content">
+          <div class="appHeader">
+            <div class="appHeaderLeft">
+              <div class="appHeaderMain">
+                <h1 class="appTitle">Pivot Points</h1>
+                <p class="subtitle">
+                  Find session levels fast with classic and alternative pivot
+                  models.
+                </p>
+              </div>
+
+              <div class="lookupRow">
+                <div class="symbolInputWrap">
+                  <label class="symbolLabel" for="symbol">Stock Symbol</label>
+                  <input
+                    class="symbolInput"
+                    id="symbol"
+                    type="text"
+                    aria-label="Stock Symbol"
+                    placeholder="Try symbols like AAPL, MSFT, SPY"
+                    autocomplete="off"
+                  />
+                  <small class="symbolHint">Try symbols like AAPL, MSFT, SPY</small>
+                </div>
+                <button id="lookupButton" class="lookupButton" type="button">Look up</button>
+              </div>
+            </div>
+
+            <aside class="recentSearchesPanel" aria-label="Recent searches">
+              <h2 class="recentSearchesTitle">Recent searches</h2>
+              <div id="recentSearchesList" class="recentSearchesList"></div>
+              <p id="recentSearchesEmpty" class="recentSearchesEmpty">
+                Your last ten unique symbols will show here.
+              </p>
+            </aside>
+          </div>
+
+          <div aria-live="polite" class="liveStatus">
+            <span id="message"></span>
+          </div>
+
+          <div class="statsRow">
+            <span class="stats" id="highStat">High: $ 0</span>
+            <span class="stats" id="lowStat">Low: $ 0</span>
+            <span class="stats" id="openStat">Open: $ 0</span>
+            <span class="stats" id="closeStat">Close: $ 0</span>
+          </div>
+
+          <hr class="divider" />
+
+          <section class="tableSection">
+            <div class="tableIntro">
+              <h2 class="tableSubtitle">
+                Compare support, resistance, and pivot levels across the four
+                calculation methods.
+              </h2>
+            </div>
+            <div class="pivotTableWrapper">
+              <table class="pivotTable">
+                <thead>
+                  <tr>
+                    <th scope="col">Level</th>
+                    <th scope="col">Classic</th>
+                    <th scope="col">Camarilla</th>
+                    <th scope="col">Fibonacci</th>
+                    <th scope="col">DeMark</th>
+                  </tr>
+                </thead>
+                <tbody id="pivotTableBody"></tbody>
+              </table>
+            </div>
+            <div id="mobilePivotCards" class="mobilePivotCards"></div>
+          </section>
+
+          <hr class="divider" />
+          <div class="footnote">
+            ** Pivot Point data is only accurate before/after trading hours **
+          </div>
+        </div>
+
+        <div class="versionFootnote" id="versionFootnote"></div>
+      </div>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

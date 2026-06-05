@@ -1,10 +1,9 @@
-/*Google fonts*/
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
-body{
+body {
   padding: 0;
   margin: 0;
-  background-color: #C2B280;
+  background-color: #c2b280;
   overflow-x: hidden;
 }
 
@@ -18,25 +17,25 @@ body{
   box-sizing: border-box;
 }
 
-.container{
+.container {
   position: relative;
   width: min(1280px, calc(100vw - 1rem));
   margin: 0 auto;
   text-align: center;
   font-family: 'Raleway', sans-serif;
   background-color: white;
-  border: 1px solid rgba(0,0,0,0.16);
+  border: 1px solid rgba(0, 0, 0, 0.16);
   border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.16);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
   padding: 1.25rem 1rem 3rem;
   box-sizing: border-box;
 }
 
-.content{
+.content {
   width: 100%;
 }
 
-.appHeader{
+.appHeader {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(250px, 40%);
   gap: 1rem;
@@ -44,42 +43,42 @@ body{
   margin-bottom: 0.75rem;
 }
 
-.appHeaderLeft{
+.appHeaderLeft {
   display: grid;
   gap: 0.9rem;
   min-width: 0;
 }
 
-.appHeaderMain{
+.appHeaderMain {
   text-align: left;
 }
 
-.appTitle{
+.appTitle {
   margin: 0;
   font-size: clamp(1.7rem, 2.6vw, 2.4rem);
   color: #111827;
 }
 
-.subtitle{
+.subtitle {
   margin: 0.35rem 0 0;
   color: #4b5563;
   font-size: clamp(0.9rem, 1.2vw, 1rem);
   max-width: 720px;
 }
 
-.recentSearchesPanel{
+.recentSearchesPanel {
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
   text-align: left;
-  border: 1px solid rgba(15,23,42,0.1);
+  border: 1px solid rgba(15, 23, 42, 0.1);
   border-radius: 12px;
   padding: 0.85rem;
   background: #f9fafb;
   overflow: hidden;
 }
 
-.recentSearchesTitle{
+.recentSearchesTitle {
   margin: 0 0 0.65rem;
   font-size: 0.92rem;
   color: #111827;
@@ -87,14 +86,14 @@ body{
   letter-spacing: 0.02em;
 }
 
-.recentSearchesList{
+.recentSearchesList {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
 }
 
-.recentSearchChip{
-  border: 1px solid rgba(30,94,168,0.18);
+.recentSearchChip {
+  border: 1px solid rgba(30, 94, 168, 0.18);
   background: #ffffff;
   color: #1e5ea8;
   border-radius: 999px;
@@ -104,129 +103,166 @@ body{
   cursor: pointer;
 }
 
-.recentSearchChip:hover{
+.recentSearchChip:hover {
   background: #eff6ff;
 }
 
-.recentSearchesEmpty{
+.recentSearchesEmpty {
   margin: 0;
   color: #6b7280;
   font-size: 0.85rem;
   line-height: 1.45;
 }
 
-.lookupRow{
+.lookupRow {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-start;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
 
-.symbolInput{
+.symbolInputWrap {
   min-width: min(360px, 100%);
   flex: 1 1 280px;
   max-width: 420px;
+  display: grid;
+  gap: 0.25rem;
+  text-align: left;
 }
 
-.symbolInput .MuiInputBase-input{
-  text-transform: uppercase;
-  text-align: center;
-}
-
-#button.lookupButton{
-  min-height: 40px;
-  min-width: 130px;
-  margin-bottom: 0.25rem;
-  text-transform: none;
+.symbolLabel {
+  color: #334155;
+  font-size: 0.82rem;
   font-weight: 600;
 }
 
-#message{
+.symbolInput {
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.24);
+  padding: 0 0.75rem;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.symbolInput:focus {
+  outline: 2px solid rgba(30, 94, 168, 0.32);
+  border-color: #1e5ea8;
+}
+
+.symbolHint {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.lookupButton {
+  min-height: 40px;
+  min-width: 130px;
+  margin-top: 1.35rem;
+  margin-bottom: 0;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #1e5ea8;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.lookupButton:hover:not(:disabled) {
+  background: #184f8f;
+}
+
+.lookupButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+#message {
   color: #1e5ea8;
   margin: 0;
 }
 
-.liveStatus{
+.liveStatus {
   margin: 0.75rem 0 1rem;
   padding: 0.75rem 1rem;
   border-radius: 10px;
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.statsRow{
+.statsRow {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.6rem;
   margin: 0.5rem 0 0.75rem;
 }
 
-.stats{
+.stats {
   margin: 0;
   padding: 0.65rem;
-  border: 1px solid rgba(125,125,125,.42);
+  border: 1px solid rgba(125, 125, 125, 0.42);
   font-size: clamp(0.86rem, 1vw, 0.98rem);
-  color: rgb(55,65,81);
+  color: rgb(55, 65, 81);
   border-radius: 8px;
-  background: rgba(255,255,255,0.55);
+  background: rgba(255, 255, 255, 0.55);
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.divider{
+.divider {
   border: none;
-  border-top: 1px solid rgba(15,23,42,0.12);
+  border-top: 1px solid rgba(15, 23, 42, 0.12);
   margin: 1rem 0;
 }
 
-.tableSection{
+.tableSection {
   text-align: left;
   margin-top: 0.25rem;
   margin-left: -0.5rem;
   margin-right: -0.5rem;
 }
 
-.tableIntro{
+.tableIntro {
   margin-bottom: 0.85rem;
   padding: 0 0.5rem;
 }
 
-.tableTitle{
-  margin: 0;
-  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
-  color: #111827;
-}
-
-.tableSubtitle{
+.tableSubtitle {
   margin: 0.25rem 0 0;
   color: #6b7280;
   font-size: clamp(0.8rem, 1vw, 0.92rem);
 }
 
-.pivotTableWrapper{
+.pivotTableWrapper {
   width: 100%;
   overflow-x: hidden;
-  border: 1px solid rgba(15,23,42,0.18);
+  border: 1px solid rgba(15, 23, 42, 0.18);
   border-radius: 12px;
   background: #f9fafb;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-.mobilePivotCards{
+.mobilePivotCards {
   display: none;
 }
 
-.pivotTable{
+.pivotTable {
   width: 100%;
   min-width: 0;
   border-collapse: collapse;
   table-layout: fixed;
 }
 
-.pivotTable thead th{
+.pivotTable thead th {
   position: sticky;
   top: 0;
   z-index: 1;
@@ -237,267 +273,230 @@ body{
   text-transform: uppercase;
 }
 
-.pivotTable thead th:not(:first-child){
+.pivotTable thead th:not(:first-child) {
   text-align: right;
 }
 
 .pivotTable th,
-.pivotTable td{
+.pivotTable td {
   padding: 0.65rem 0.55rem;
-  border: 1px solid rgba(15,23,42,0.12);
+  border: 1px solid rgba(15, 23, 42, 0.12);
   white-space: normal;
   overflow-wrap: anywhere;
 }
 
 .pivotTable thead th:first-child,
-.pivotTable tbody th{
+.pivotTable tbody th {
   width: 28%;
 }
 
-.pivotTable tbody th{
+.pivotTable tbody th {
   text-align: left;
   color: #1f2937;
-  background: rgba(255,255,255,0.82);
+  background: rgba(255, 255, 255, 0.82);
   font-weight: 700;
 }
 
-.pivotTable td{
+.pivotTable td {
   text-align: right;
   color: #334155;
   font-variant-numeric: tabular-nums;
 }
 
-.pivotTable tbody td{
-  background: rgba(255,255,255,0.72);
+.pivotTable tbody td {
+  background: rgba(255, 255, 255, 0.72);
 }
 
-.pivotTable tbody tr:nth-child(even){
-  background: rgba(255,255,255,0.52);
+.pivotTable tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.52);
 }
 
-.pivotTable tbody tr:hover{
-  background: rgba(194,178,128,0.12);
+.pivotTable tbody tr:hover {
+  background: rgba(194, 178, 128, 0.12);
 }
 
 .pivotRow th,
-.pivotRow td{
-  background: rgba(30,94,168,0.08);
+.pivotRow td {
+  background: rgba(30, 94, 168, 0.08);
   color: #0b4f9c;
   font-weight: 700;
 }
 
-.cell{
-  min-height: 2.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.35rem 0.45rem;
-  border-bottom: 1px solid rgba(17,24,39,0.08);
-  font-size: clamp(0.8rem, 0.85vw, 0.95rem);
-  color: #1f2937;
-}
-
-.title{
-  min-height: 2.6rem;
-  font-weight: 700;
-  color: #0f172a;
-  background: rgba(194,178,128,0.22);
-}
-
-.pivot{
-  color: #0b4f9c;
-  font-weight: 700;
-}
-
-.support3{
-  border-bottom: none;
-}
-
-.name{
-  text-align: left;
-  font-size: clamp(0.82rem, 0.9vw, 0.95rem);
-}
-
-.name .cell{
-  justify-content: flex-start;
-  padding-left: 0.75rem;
-}
-
-.footnote{
+.footnote {
   font-size: clamp(0.75rem, 0.9vw, 0.85rem);
   color: #6b7280;
   margin-bottom: 0.25rem;
 }
 
-.versionFootnote{
+.versionFootnote {
   position: absolute;
   right: 12px;
   bottom: 8px;
   font-size: clamp(0.68rem, 0.8vw, 0.76rem);
-  color: rgba(0,0,0,0.55);
+  color: rgba(0, 0, 0, 0.55);
 }
 
-@media (max-width: 900px){
-  .container{
+@media (max-width: 900px) {
+  .container {
     width: min(100%, calc(100vw - 0.75rem));
     padding: 1rem 0.75rem 3rem;
   }
 
-  .appHeader{
+  .appHeader {
     grid-template-columns: 1fr;
   }
 
-  .appHeaderLeft{
+  .appHeaderLeft {
     gap: 0.75rem;
   }
 
-  .recentSearchesPanel{
+  .recentSearchesPanel {
     max-width: 100%;
   }
 
-  .tableSection{
+  .tableSection {
     margin-left: -0.4rem;
     margin-right: -0.4rem;
   }
 
-  .tableIntro{
+  .tableIntro {
     padding: 0 0.4rem;
   }
 }
 
-@media (max-width: 600px){
-  .App{
+@media (max-width: 600px) {
+  .App {
     align-items: flex-start;
     padding: 0.3rem;
   }
 
-  .container{
+  .container {
     border-radius: 10px;
     width: min(100%, calc(100vw - 0.35rem));
     padding: 0.9rem 0.55rem 2.7rem;
   }
 
-  .lookupRow{
+  .lookupRow {
     gap: 0.45rem;
   }
 
-  .symbolInput{
+  .symbolInputWrap {
     max-width: 100%;
   }
 
-  #button.lookupButton{
+  .lookupButton {
     width: 100%;
+    margin-top: 0;
     margin-bottom: 0;
   }
 
-  .liveStatus{
+  .liveStatus {
     padding: 0.65rem 0.7rem;
   }
 
-  .statsRow{
+  .statsRow {
     gap: 0.3rem;
   }
 
-  .stats{
+  .stats {
     padding: 0.42rem 0.2rem;
     font-size: clamp(0.58rem, 2.25vw, 0.76rem);
   }
 
-  .pivotTableWrapper{
+  .pivotTableWrapper {
     display: none;
   }
 
-  .mobilePivotCards{
+  .mobilePivotCards {
     display: grid;
     gap: 0.75rem;
   }
 
-  .mobilePivotCard{
-    border: 1px solid rgba(15,23,42,0.14);
+  .mobilePivotCard {
+    border: 1px solid rgba(15, 23, 42, 0.14);
     border-radius: 12px;
     background: #f9fafb;
     overflow: hidden;
   }
 
-  .mobilePivotTitle{
+  .mobilePivotTitle {
     margin: 0;
     padding: 0.85rem 0.8rem;
     font-size: 0.98rem;
     color: #111827;
     background: #efe6cf;
-    border-bottom: 1px solid rgba(15,23,42,0.12);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.12);
   }
 
-  .mobilePivotCard--classic .mobilePivotTitle{
+  .mobilePivotCard--classic .mobilePivotTitle {
     background: #dbeafe;
     color: #1e3a8a;
   }
 
-  .mobilePivotCard--camarilla .mobilePivotTitle{
+  .mobilePivotCard--camarilla .mobilePivotTitle {
     background: #dcfce7;
     color: #166534;
   }
 
-  .mobilePivotCard--fibonacci .mobilePivotTitle{
+  .mobilePivotCard--fibonacci .mobilePivotTitle {
     background: #fef3c7;
     color: #92400e;
   }
 
-  .mobilePivotCard--demark .mobilePivotTitle{
+  .mobilePivotCard--demark .mobilePivotTitle {
     background: #f3e8ff;
     color: #6b21a8;
   }
 
-  .mobilePivotList{
+  .mobilePivotList {
     display: grid;
   }
 
-  .mobilePivotItem{
+  .mobilePivotItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
     padding: 0.72rem 0.8rem;
-    border-bottom: 1px solid rgba(15,23,42,0.08);
-    background: rgba(255,255,255,0.78);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    background: rgba(255, 255, 255, 0.78);
   }
 
-  .mobilePivotItem:last-child{
+  .mobilePivotItem:last-child {
     border-bottom: none;
   }
 
-  .mobilePivotItemHighlight{
-    background: rgba(30,94,168,0.08);
+  .mobilePivotItemHighlight {
+    background: rgba(30, 94, 168, 0.08);
   }
 
-  .mobilePivotLabel{
+  .mobilePivotLabel {
     color: #374151;
     font-weight: 600;
   }
 
-  .mobilePivotValue{
+  .mobilePivotValue {
     color: #1f2937;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     text-align: right;
   }
 
-  .tableSection{
+  .tableSection {
     margin-left: -0.2rem;
     margin-right: -0.2rem;
   }
 
-  .tableIntro{
+  .tableIntro {
     padding: 0 0.2rem;
   }
 
   .pivotTable th,
-  .pivotTable td{
+  .pivotTable td {
     padding: 0.72rem 0.7rem;
   }
 
-  .tableSubtitle{
+  .tableSubtitle {
     line-height: 1.45;
   }
 }
-
