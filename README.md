@@ -25,14 +25,6 @@ This app will take a stock symbol and automatically calculate the pivot points b
 https://tomkim825.github.io/Pivot-Points/
 
 
-**Troubleshooting** 
-
-Check internet connection
-
-**Built With**  
-
-MaterialUI, React, jquery, googlefont
-
 **Deployment Requirements**
 
 Sign up for your own free API key from alphavantage
