@@ -231,7 +231,7 @@
     renderPivotTable(pivotRows);
     renderMobileCards(pivotRows);
 
-    elements.versionFootnote.textContent = `2026 version 0.1.${apiKeyIndex}`;
+    elements.versionFootnote.textContent = `2026 version 0.2.${apiKeyIndex}`;
   };
 
   const storeRecentSearch = (symbol) => {
